@@ -11,7 +11,7 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/esuwu/groth16_verifier/bls12_381"
-	"github.com/esuwu/groth16_verifier/bn256"
+	"github.com/esuwu/groth16_verifier/bn254"
 )
 
 const (
@@ -33,12 +33,12 @@ func Groth16Verify(vkBytes []byte, proofBytes []byte, inputsBytes []byte, curve 
 		}
 		vk = bls12_381.FromBellmanVerifyingKey(&bvk)
 	case ecc.BN254:
-		var bvk bn256.BellmanVerifyingKeyBn256
+		var bvk bn254.BellmanVerifyingKeyBn256
 		_, err := bvk.ReadFrom(bytes.NewReader(vkBytes))
 		if err != nil {
 			return false, err
 		}
-		vk = bn256.FromBellmanVerifyingKey(&bvk)
+		vk = bn254.FromBellmanVerifyingKey(&bvk)
 	default:
 		return false, errors.Errorf("unknown eliptic curve")
 	}
